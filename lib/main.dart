@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text("Tarefas"),
         ),
-        body: Column(
+        body: ListView(
           children: [
             Task('Aprender Flutter'),
             Task('Andar de bike'),
@@ -42,31 +42,43 @@ class Task extends StatelessWidget {
   const Task(this.nome, {super.key}); //Construtor
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          Container(
-            color: Colors.blue,
-            height: 140,
-          ),
-          Container(
-            color: Colors.white,
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  color: Colors.black26,
-                  width: 72,
-                  height: 100,
-                ),
-                Text(nome),
-                ElevatedButton(
-                    onPressed: () {}, child: Icon(Icons.arrow_drop_up))
-              ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.blue,
+              height: 140,
             ),
-          )
-        ],
+            Container(
+              color: Colors.white,
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    color: Colors.black26,
+                    width: 72,
+                    height: 100,
+                  ),
+                  Container(
+                    // Colocar o texto sobre um container para evitar overflow
+                    width: 200,
+                    child: Text(
+                      nome,
+                      style: TextStyle(fontSize: 24),
+                      overflow: TextOverflow
+                          .ellipsis, //caso de overflow no meu texto - 3 pontinhos fica subentendido
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {}, child: Icon(Icons.arrow_drop_up))
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
