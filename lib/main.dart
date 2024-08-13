@@ -13,41 +13,60 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: Container(
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      home: Scaffold(
+        // Tem appbar, boddy e a parte de baixo do app
+        appBar: AppBar(
+          title: Text("Tarefas"),
+        ),
+        body: Column(
           children: [
-            Container(
-              color: Colors.blue,
-              width: 100,
-              height: 50,
-            ),
-            Container(
-              color: Colors.red,
-              width: 200,
-              height: 100,
-            ),
-            Container(
-              color: Colors.amber,
-              height: 30,
-              width: 300,
-              child: Text(
-                'Diamante Amarelo',
-                style: TextStyle(color: Colors.black, fontSize: 28),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  print("voce apertou um botão");
-                },
-                child: Text('Apere o botão!'))
+            Task('Aprender Flutter'),
+            Task('Andar de bike'),
+            Task('Meditar'),
           ],
         ),
+        floatingActionButton: FloatingActionButton(onPressed: () {}),
+      ),
+    );
+  }
+}
+
+/// Classe para colocar layout de maneira estática e variada
+/// Criar nosso proprio Widget basicamente
+class Task extends StatelessWidget {
+  final String nome; //Parametro da classe
+
+  const Task(this.nome, {super.key}); //Construtor
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Stack(
+        children: [
+          Container(
+            color: Colors.blue,
+            height: 140,
+          ),
+          Container(
+            color: Colors.white,
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  color: Colors.black26,
+                  width: 72,
+                  height: 100,
+                ),
+                Text(nome),
+                ElevatedButton(
+                    onPressed: () {}, child: Icon(Icons.arrow_drop_up))
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
