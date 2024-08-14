@@ -36,46 +36,97 @@ class MyApp extends StatelessWidget {
 
 /// Classe para colocar layout de maneira estática e variada
 /// Criar nosso proprio Widget basicamente
-class Task extends StatelessWidget {
+///
+class Task extends StatefulWidget {
   final String nome; //Parametro da classe
 
-  const Task(this.nome, {super.key}); //Construtor
+  const Task(this.nome, {super.key});
+
+  @override
+  State<Task> createState() =>
+      _TaskState(); // Fica de olho nas variaveis para caso elas mudem
+}
+
+/**
+ * Ficar de olho no estado, caso o estado mude ele irá
+ * resenhar a tela a cada mudança de estado
+ */
+class _TaskState extends State<Task> {
+  int nivel = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         child: Stack(
+          // alignment: Alignment.center,
           children: [
             Container(
               color: Colors.blue,
               height: 140,
             ),
-            Container(
-              color: Colors.white,
-              height: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    color: Colors.black26,
-                    width: 72,
-                    height: 100,
+            Column(
+              children: [
+                Container(
+                  color: Colors.white,
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        color: Colors.black26,
+                        width: 72,
+                        height: 100,
+                      ),
+                      Container(
+                        // Colocar o texto sobre um container para evitar overflow
+                        width: 200,
+                        child: Text(
+                          widget.nome, //Padrão de sintaxe do stateful
+                          style: TextStyle(fontSize: 24),
+                          overflow: TextOverflow
+                              .ellipsis, //caso de overflow no meu texto - 3 pontinhos fica subentendido
+                        ),
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            /**
+                             * Função que diz para o widget quem eh que está mudando
+                             * Irá reconstruir a tela com as mudanças de estado
+                             */
+                            setState(() {
+                              nivel++; //Aumenta o nivel ao pressionar o botão
+                            });
+                            print(nivel);
+                          },
+                          child: Icon(Icons.arrow_drop_up))
+                    ],
                   ),
-                  Container(
-                    // Colocar o texto sobre um container para evitar overflow
-                    width: 200,
-                    child: Text(
-                      nome,
-                      style: TextStyle(fontSize: 24),
-                      overflow: TextOverflow
-                          .ellipsis, //caso de overflow no meu texto - 3 pontinhos fica subentendido
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8), // qual lado que voce quer tenha o padding
+                      child: Container(
+                        width: 200,
+                        child: LinearProgressIndicator(
+                          color: Colors.white,
+                          value: nivel/10, //Maximo que da pra ir eh lvl 10
+                        ),
+                      ),
                     ),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {}, child: Icon(Icons.arrow_drop_up))
-                ],
-              ),
+                    Padding(
+                      padding: const EdgeInsets.all(8), //padding
+                      child: Text(
+                        'Nivel: $nivel',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             )
           ],
         ),
