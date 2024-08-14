@@ -19,13 +19,14 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         // Tem appbar, boddy e a parte de baixo do app
         appBar: AppBar(
-          title: Text("Tarefas"),
+          leading: Container(),
+          title: const Text("Tarefas"),
         ),
         body: ListView(
           children: [
-            Task('Aprender Flutter'),
-            Task('Andar de bike'),
-            Task('Meditar'),
+            const Task('Aprender Flutter'),
+            const Task('Andar de bike'),
+            const Task('Meditar'),
           ],
         ),
         floatingActionButton: FloatingActionButton(onPressed: () {}),
@@ -84,23 +85,36 @@ class _TaskState extends State<Task> {
                         width: 200,
                         child: Text(
                           widget.nome, //Padrão de sintaxe do stateful
-                          style: TextStyle(fontSize: 24),
+                          style: const TextStyle(fontSize: 24),
                           overflow: TextOverflow
                               .ellipsis, //caso de overflow no meu texto - 3 pontinhos fica subentendido
                         ),
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            /**
-                             * Função que diz para o widget quem eh que está mudando
-                             * Irá reconstruir a tela com as mudanças de estado
-                             */
-                            setState(() {
-                              nivel++; //Aumenta o nivel ao pressionar o botão
-                            });
-                            print(nivel);
-                          },
-                          child: Icon(Icons.arrow_drop_up))
+                      Container(
+                        height: 65,
+                        width: 65,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              /**
+                               * Função que diz para o widget quem eh que está mudando
+                               * Irá reconstruir a tela com as mudanças de estado
+                               */
+                              setState(() {
+                                nivel++; //Aumenta o nivel ao pressionar o botão
+                              });
+                              print(nivel);
+                            },
+                            child:  const Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Icon(Icons.arrow_drop_up),
+                                Text("UP", style: TextStyle(
+                                  fontSize: 12
+                                ),)
+                              ],
+                            )),
+                      )
                     ],
                   ),
                 ),
@@ -108,12 +122,13 @@ class _TaskState extends State<Task> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8), // qual lado que voce quer tenha o padding
+                      padding: const EdgeInsets.all(8),
+                      // qual lado que voce quer tenha o padding
                       child: Container(
                         width: 200,
                         child: LinearProgressIndicator(
                           color: Colors.white,
-                          value: nivel/10, //Maximo que da pra ir eh lvl 10
+                          value: nivel / 10, //Maximo que da pra ir eh lvl 10
                         ),
                       ),
                     ),
@@ -121,7 +136,7 @@ class _TaskState extends State<Task> {
                       padding: const EdgeInsets.all(8), //padding
                       child: Text(
                         'Nivel: $nivel',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: const TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ],
