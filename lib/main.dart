@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+   MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool opacidade = true;
 
   // This widget is the root of your application.
   @override
@@ -22,17 +29,33 @@ class MyApp extends StatelessWidget {
           leading: Container(),
           title: const Text("Tarefas"),
         ),
-        body: ListView(
-          children: [
-            const Task('Aprender Flutter',
-                "https://storage.googleapis.com/cms-storage-bucket/780e0e64d323aad2cdd5.png", 3),
-            const Task('Andar de bike',
-                "https://www.sesc-sc.com.br/Manager/show_image.php?show_arquivo=institucional&show_campo=institucional_imagem_pq&show_chave=Institucional_id=4175", 2),
-            const Task('Meditar',
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUqDS-0-oReeghWnA7aL5W3nsonIH3N3wHaA&s", 5),
-          ],
+        body: AnimatedOpacity(
+          opacity: opacidade ? 1 : 0, //condição ternária
+          duration: Duration(milliseconds: 1000),
+          child: ListView(
+            children: const [
+              Task(
+                  'Aprender Flutter',
+                  "https://storage.googleapis.com/cms-storage-bucket/780e0e64d323aad2cdd5.png",
+                  3),
+              Task(
+                  'Andar de bike',
+                  "https://www.sesc-sc.com.br/Manager/show_image.php?show_arquivo=institucional&show_campo=institucional_imagem_pq&show_chave=Institucional_id=4175",
+                  2),
+              Task(
+                  'Meditar',
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUqDS-0-oReeghWnA7aL5W3nsonIH3N3wHaA&s",
+                  5),
+            ],
+          ),
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {}),
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          setState(() {
+            opacidade = !opacidade;
+          }); //Se eh falso vira verdadeiro
+        },
+          child: Icon(Icons.remove_red_eye),
+        ),
       ),
     );
   }
@@ -69,13 +92,19 @@ class _TaskState extends State<Task> {
           // alignment: Alignment.center,
           children: [
             Container(
-              color: Colors.blue,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.blue,
+              ),
               height: 140,
             ),
             Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.white,
+                  ),
                   height: 100,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,27 +138,37 @@ class _TaskState extends State<Task> {
                               Icon(
                                 Icons.star,
                                 size: 16,
-                                color: (widget.Dificuldade>=1) ? Colors.blue : Colors.blue[100],
+                                color: (widget.Dificuldade >= 1)
+                                    ? Colors.blue
+                                    : Colors.blue[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 16,
-                                color: (widget.Dificuldade>=2) ? Colors.blue : Colors.blue[100],
+                                color: (widget.Dificuldade >= 2)
+                                    ? Colors.blue
+                                    : Colors.blue[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 16,
-                                color: (widget.Dificuldade>=3) ? Colors.blue : Colors.blue[100],
+                                color: (widget.Dificuldade >= 3)
+                                    ? Colors.blue
+                                    : Colors.blue[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 16,
-                                color: (widget.Dificuldade>=4) ? Colors.blue : Colors.blue[100],
+                                color: (widget.Dificuldade >= 4)
+                                    ? Colors.blue
+                                    : Colors.blue[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 16,
-                                color: (widget.Dificuldade>=5) ? Colors.blue : Colors.blue[100],
+                                color: (widget.Dificuldade >= 5)
+                                    ? Colors.blue
+                                    : Colors.blue[100],
                               ),
                             ],
                           )
@@ -174,7 +213,8 @@ class _TaskState extends State<Task> {
                         width: 200,
                         child: LinearProgressIndicator(
                           color: Colors.white,
-                          value: (nivel/widget.Dificuldade) / 10, //Maximo que da pra ir eh lvl 10
+                          value: (nivel / widget.Dificuldade) /
+                              10, //Maximo que da pra ir eh lvl 10
                         ),
                       ),
                     ),
