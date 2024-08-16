@@ -24,9 +24,12 @@ class MyApp extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            const Task('Aprender Flutter', "https://storage.googleapis.com/cms-storage-bucket/780e0e64d323aad2cdd5.png"),
-            const Task('Andar de bike', "https://www.sesc-sc.com.br/Manager/show_image.php?show_arquivo=institucional&show_campo=institucional_imagem_pq&show_chave=Institucional_id=4175"),
-            const Task('Meditar', "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUqDS-0-oReeghWnA7aL5W3nsonIH3N3wHaA&s"),
+            const Task('Aprender Flutter',
+                "https://storage.googleapis.com/cms-storage-bucket/780e0e64d323aad2cdd5.png", 3),
+            const Task('Andar de bike',
+                "https://www.sesc-sc.com.br/Manager/show_image.php?show_arquivo=institucional&show_campo=institucional_imagem_pq&show_chave=Institucional_id=4175", 2),
+            const Task('Meditar',
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUqDS-0-oReeghWnA7aL5W3nsonIH3N3wHaA&s", 5),
           ],
         ),
         floatingActionButton: FloatingActionButton(onPressed: () {}),
@@ -41,8 +44,9 @@ class MyApp extends StatelessWidget {
 class Task extends StatefulWidget {
   final String nome; //Parametro da classe
   final String foto;
+  final int Dificuldade;
 
-  const Task(this.nome, this.foto, {super.key});
+  const Task(this.nome, this.foto, this.Dificuldade, {super.key});
 
   @override
   State<Task> createState() =>
@@ -87,7 +91,8 @@ class _TaskState extends State<Task> {
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,// Aonde eles irão começar no layout
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // Aonde eles irão começar no layout
                         children: [
                           Container(
                             // Colocar o texto sobre um container para evitar overflow
@@ -101,11 +106,31 @@ class _TaskState extends State<Task> {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.star, size: 16, color: Colors.blue,),
-                              Icon(Icons.star, size: 16, color: Colors.blue,),
-                              Icon(Icons.star, size: 16, color: Colors.blue,),
-                              Icon(Icons.star, size: 16, color: Colors.blue[100],),
-                              Icon(Icons.star, size: 16, color: Colors.blue[100],),
+                              Icon(
+                                Icons.star,
+                                size: 16,
+                                color: (widget.Dificuldade>=1) ? Colors.blue : Colors.blue[100],
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: 16,
+                                color: (widget.Dificuldade>=2) ? Colors.blue : Colors.blue[100],
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: 16,
+                                color: (widget.Dificuldade>=3) ? Colors.blue : Colors.blue[100],
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: 16,
+                                color: (widget.Dificuldade>=4) ? Colors.blue : Colors.blue[100],
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: 16,
+                                color: (widget.Dificuldade>=5) ? Colors.blue : Colors.blue[100],
+                              ),
                             ],
                           )
                         ],
@@ -149,7 +174,7 @@ class _TaskState extends State<Task> {
                         width: 200,
                         child: LinearProgressIndicator(
                           color: Colors.white,
-                          value: nivel / 10, //Maximo que da pra ir eh lvl 10
+                          value: (nivel/widget.Dificuldade) / 10, //Maximo que da pra ir eh lvl 10
                         ),
                       ),
                     ),
