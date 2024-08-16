@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            const Task('Aprender Flutter'),
-            const Task('Andar de bike'),
-            const Task('Meditar'),
+            const Task('Aprender Flutter', "https://storage.googleapis.com/cms-storage-bucket/780e0e64d323aad2cdd5.png"),
+            const Task('Andar de bike', "https://www.sesc-sc.com.br/Manager/show_image.php?show_arquivo=institucional&show_campo=institucional_imagem_pq&show_chave=Institucional_id=4175"),
+            const Task('Meditar', "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUqDS-0-oReeghWnA7aL5W3nsonIH3N3wHaA&s"),
           ],
         ),
         floatingActionButton: FloatingActionButton(onPressed: () {}),
@@ -40,8 +40,9 @@ class MyApp extends StatelessWidget {
 ///
 class Task extends StatefulWidget {
   final String nome; //Parametro da classe
+  final String foto;
 
-  const Task(this.nome, {super.key});
+  const Task(this.nome, this.foto, {super.key});
 
   @override
   State<Task> createState() =>
@@ -79,16 +80,35 @@ class _TaskState extends State<Task> {
                         color: Colors.black26,
                         width: 72,
                         height: 100,
-                      ),
-                      Container(
-                        // Colocar o texto sobre um container para evitar overflow
-                        width: 200,
-                        child: Text(
-                          widget.nome, //Padrão de sintaxe do stateful
-                          style: const TextStyle(fontSize: 24),
-                          overflow: TextOverflow
-                              .ellipsis, //caso de overflow no meu texto - 3 pontinhos fica subentendido
+                        child: Image.network(
+                          widget.foto,
+                          fit: BoxFit.cover,
                         ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,// Aonde eles irão começar no layout
+                        children: [
+                          Container(
+                            // Colocar o texto sobre um container para evitar overflow
+                            width: 200,
+                            child: Text(
+                              widget.nome, //Padrão de sintaxe do stateful
+                              style: const TextStyle(fontSize: 24),
+                              overflow: TextOverflow
+                                  .ellipsis, //caso de overflow no meu texto - 3 pontinhos fica subentendido
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.star, size: 16, color: Colors.blue,),
+                              Icon(Icons.star, size: 16, color: Colors.blue,),
+                              Icon(Icons.star, size: 16, color: Colors.blue,),
+                              Icon(Icons.star, size: 16, color: Colors.blue[100],),
+                              Icon(Icons.star, size: 16, color: Colors.blue[100],),
+                            ],
+                          )
+                        ],
                       ),
                       Container(
                         height: 65,
@@ -104,17 +124,18 @@ class _TaskState extends State<Task> {
                               });
                               print(nivel);
                             },
-                            child:  const Column(
+                            child: const Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Icon(Icons.arrow_drop_up),
-                                Text("UP", style: TextStyle(
-                                  fontSize: 12
-                                ),)
+                                Text(
+                                  "UP",
+                                  style: TextStyle(fontSize: 12),
+                                )
                               ],
                             )),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -136,7 +157,8 @@ class _TaskState extends State<Task> {
                       padding: const EdgeInsets.all(8), //padding
                       child: Text(
                         'Nivel: $nivel',
-                        style: const TextStyle(color: Colors.white, fontSize: 16),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ],
